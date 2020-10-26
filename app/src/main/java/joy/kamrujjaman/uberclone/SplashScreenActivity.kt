@@ -21,6 +21,7 @@ import com.google.firebase.database.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import joy.kamrujjaman.uberclone.Common.DRIVER_INFO_REFERENCE
+import joy.kamrujjaman.uberclone.Common.currentUser
 import joy.kamrujjaman.uberclone.model.DriverInfoModel
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import java.util.*
@@ -59,7 +60,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen)
 
         init()
@@ -96,13 +97,20 @@ class SplashScreenActivity : AppCompatActivity() {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                    if (snapshot.exists()){
-                       Toast.makeText(this@SplashScreenActivity,"User Already registered",Toast.LENGTH_LONG).show()
-
+                       val model = snapshot.getValue(DriverInfoModel::class.java)
+                       gotoHomeActivity(model)
                    }else{
                        registerLayout()
                    }
                 }
             })
+    }
+
+    private fun gotoHomeActivity(model: DriverInfoModel?) {
+        currentUser = model
+        startActivity(Intent(this,DriverHomeActivity::class.java))
+        finish()
+
     }
 
     private fun registerLayout() {
@@ -150,6 +158,7 @@ class SplashScreenActivity : AppCompatActivity() {
                         Toast.makeText(this@SplashScreenActivity,"Register Successful!",Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                         loading.visibility =View.GONE
+                        gotoHomeActivity(model)
                     }
             }
         }
