@@ -60,5 +60,11 @@ dependencies {
     //Firebase Database
     implementation 'com.google.firebase:firebase-database:19.5.0'
 
+    //location
+    implementation 'com.google.android.gms:play-services-location:17.1.0'
+
+    //dexter
+    implementation 'com.karumi:dexter:6.2.1'
+
 
 }
