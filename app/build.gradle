@@ -65,6 +65,8 @@ dependencies {
 
     //dexter
     implementation 'com.karumi:dexter:6.2.1'
+    //Geforce
+    implementation 'com.firebase:geofire-java:3.0.0'
 
 
 }
